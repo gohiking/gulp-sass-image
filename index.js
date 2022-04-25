@@ -8,10 +8,10 @@ const mustache = require('mustache');
 const sizeOf = require('image-size');
 const mime = require('mime');
 const md5 = require('md5');
-const SVGO = require('svgo');
+// const SVGO = require('svgo');
 const appRoot = require('app-root-path').path;
 
-const svgo = new SVGO();
+// const svgo = new SVGO();
 
 let images = [];
 let options = {
@@ -45,36 +45,36 @@ function isSet(val) {
     return typeof val !== 'undefined' && val !== null;
 }
 
-function getSvgDimensions(file) {
-    let dimensions = {
-        width: undefined,
-        height: undefined,
-    };
+// function getSvgDimensions(file) {
+//     let dimensions = {
+//         width: undefined,
+//         height: undefined,
+//     };
 
-    try {
-        dimensions = sizeOf(file.path);
-    } catch (e) {
-        // Could not read width/height from svg. Try again with the slower svgo parser:
-        svgo.optimize(file.contents.toString(), (res) => {
-            // Check if dimensions could be read, log notice if not
-            if (!isSet(res) || !isSet(res.info) || !isSet(res.info.width) || !isSet(res.info.height)) {
-                const filePath = path.relative(options.images_path, file.path);
-                log(
-                    colors.yellow('NOTICE'),
-                    'Image Dimensions could not be determined for:',
-                    colors.cyan(filePath)
-                );
-                return;
-            }
-            dimensions = {
-                width: res.info.width,
-                height: res.info.height,
-            };
-        });
-    }
+//     try {
+//         dimensions = sizeOf(file.path);
+//     } catch (e) {
+//         // Could not read width/height from svg. Try again with the slower svgo parser:
+//         svgo.optimize(file.contents.toString(), (res) => {
+//             // Check if dimensions could be read, log notice if not
+//             if (!isSet(res) || !isSet(res.info) || !isSet(res.info.width) || !isSet(res.info.height)) {
+//                 const filePath = path.relative(options.images_path, file.path);
+//                 log(
+//                     colors.yellow('NOTICE'),
+//                     'Image Dimensions could not be determined for:',
+//                     colors.cyan(filePath)
+//                 );
+//                 return;
+//             }
+//             dimensions = {
+//                 width: res.info.width,
+//                 height: res.info.height,
+//             };
+//         });
+//     }
 
-    return dimensions;
-}
+//     return dimensions;
+// }
 
 function bufferContents(file) {
     if (!options.images_path) {
@@ -90,7 +90,7 @@ function bufferContents(file) {
     let dimensions;
 
     if (mimetype === 'image/svg+xml') {
-        dimensions = getSvgDimensions(file);
+//         dimensions = getSvgDimensions(file);
         encoding = 'charset=utf8';
         data = file.contents.toString('utf8');
         data = data.replace(/'/g, '"');
